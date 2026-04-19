@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Proefbalans — NL grootboek (4 kolommen)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #ffffff;
+      --page: #f6f7f9;
+      --ink: #111827;
+      --muted: #6b7280;
+      --zero: #9ca3af;
+      --border: #e5e7eb;
+      --group-rule: #d1d5db;
+      --thead: #fafafa;
+      --stripe: #f9fafb;
+      --primary: #45aeea;
+      --kpi-bg: #e4e7ec;
+      --kpi-rule: #9ca3af;
+      --kpi-label: #1f2937;
+      --shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Inter", system-ui, sans-serif;
+      font-size: 13px;
+      color: var(--ink);
+      background: var(--page);
+      line-height: 1.45;
+    }
+
+    .page {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 1.25rem 1rem 2rem;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .period-block label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 0.35rem;
+    }
+
+    .period-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 0.65rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      min-width: 280px;
+    }
+
+    .period-input-wrap input {
+      flex: 1;
+      border: none;
+      font: inherit;
+      color: var(--ink);
+      outline: none;
+    }
+
+    .period-hint {
+      margin: 0.35rem 0 0;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .btn {
+      font: inherit;
+      font-weight: 600;
+      font-size: 12px;
+      padding: 0.45rem 0.85rem;
+      border-radius: 8px;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--ink);
+    }
+
+    .btn:hover {
+      background: var(--stripe);
+    }
+
+    .actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .hint {
+      margin: 0 0 0.85rem;
+      font-size: 11px;
+      color: var(--muted);
+      max-width: 72ch;
+    }
+
+    .sheet {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      overflow: auto;
+      max-height: calc(100vh - 160px);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      table-layout: fixed;
+      min-width: 1280px;
+    }
+
+    col.col-acc { width: 30%; }
+    col.col-n { width: 8.75%; }
+
+    thead {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    thead th {
+      background: var(--thead);
+      font-weight: 700;
+      font-size: 11px;
+      color: var(--ink);
+      padding: 0.55rem 0.5rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    thead tr:first-child th {
+      padding-top: 0.65rem;
+      font-size: 12px;
+    }
+
+    .th-account {
+      text-align: left;
+      border-right: 1px solid var(--border);
+    }
+
+    .th-curr-hint {
+      font-weight: 500;
+      color: #374151;
+      font-size: 10px;
+    }
+
+    .th-group {
+      text-align: center;
+      letter-spacing: 0.02em;
+      color: var(--ink);
+      border-left: 2px solid var(--group-rule);
+    }
+
+    .th-group:first-of-type {
+      border-left: 2px solid var(--group-rule);
+    }
+
+    .th-sub {
+      text-align: right;
+      font-size: 10px;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+      font-weight: 700;
+      border-left: 2px solid var(--group-rule);
+    }
+
+    .th-sub.th-credit {
+      border-left: none;
+    }
+
+    tbody td {
+      padding: 0.45rem 0.5rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    tbody tr.row-zebra:nth-child(even) {
+      background: var(--stripe);
+    }
+
+    td.account-col {
+      border-right: 1px solid var(--border);
+    }
+
+    tbody td.account-col {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 0.35rem;
+    }
+
+    tbody td.account-col > .acct-main {
+      flex: 1;
+      min-width: 0;
+    }
+
+    tbody td.account-col > .expand-toggle {
+      flex: 1;
+      min-width: 0;
+      width: auto;
+    }
+
+    tbody td.account-col > .cell-flex {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .acct-currency {
+      flex-shrink: 0;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+    }
+
+    .acct-currency::before {
+      content: "–";
+      margin-right: 0.35rem;
+      color: var(--border);
+      font-weight: 400;
+    }
+
+    tr.kpi-row td.account-col .acct-currency {
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    td.num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      font-size: 12px;
+    }
+
+    td.num.group-start {
+      border-left: 2px solid var(--group-rule);
+    }
+
+    td.num.amount-active {
+      font-weight: 400;
+      color: var(--ink);
+    }
+
+    td.num.amount-zero {
+      font-weight: 400;
+      color: var(--zero);
+    }
+
+    tr.subtotal-row td.num.amount-active {
+      font-weight: 700;
+      color: #374151;
+    }
+
+    tr.kpi-row td {
+      background: var(--kpi-bg);
+      border-top: 1px dashed var(--kpi-rule);
+      padding-top: 0.85rem;
+      padding-bottom: 0.7rem;
+    }
+
+    tr.kpi-row td.account-col {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--kpi-label);
+    }
+
+    tr.kpi-row .acct-text {
+      font-weight: 700;
+      color: var(--kpi-label);
+    }
+
+    tr.kpi-row td.num {
+      font-size: 13px;
+    }
+
+    tr.kpi-row td.num.amount-active {
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    tr.kpi-row td.num.amount-zero {
+      font-weight: 400;
+      color: var(--zero);
+    }
+
+    .cell-flex {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .tag {
+      flex-shrink: 0;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 0.12rem 0.35rem;
+      border-radius: 3px;
+    }
+
+    .tag--subtotal {
+      color: var(--muted);
+      background: rgba(107, 114, 128, 0.12);
+      border: 1px dashed var(--border);
+    }
+
+    .tag--kpi {
+      color: #4b5563;
+      background: rgba(75, 85, 99, 0.12);
+      border: 1px dashed #9ca3af;
+    }
+
+    tr.subtotal-row td {
+      border-top: 1px dashed #9ca3af;
+      padding-top: 0.55rem;
+    }
+
+    tr.subtotal-row .acct-text {
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .expand-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: none;
+      border: none;
+      padding: 0;
+      font: inherit;
+      font-weight: 500;
+      text-align: left;
+      cursor: pointer;
+      color: var(--ink);
+    }
+
+    .expand-toggle:hover {
+      color: var(--primary);
+    }
+
+    .expand-toggle:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+
+    .chevron {
+      width: 1rem;
+      flex-shrink: 0;
+      transition: transform 0.15s ease;
+      color: var(--muted);
+      font-size: 0.6rem;
+    }
+
+    tr.parent-row.is-open .chevron {
+      transform: rotate(90deg);
+    }
+
+    .breakdown-row .account-col .acct-main {
+      padding-left: 1.35rem;
+      border-left: 2px solid var(--border);
+      margin-left: 0.25rem;
+      font-weight: 400;
+      color: #4b5563;
+    }
+
+    .account-label .codes {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 500;
+      margin-right: 0.35rem;
+    }
+
+    .breakdown-row.hidden,
+    tr.subtotal-row.hidden {
+      display: none;
+    }
+
+    .footer-hint {
+      margin: 0.85rem 0 0;
+      font-size: 10px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="toolbar">
+      <div class="period-block">
+        <label for="period-range">Periode</label>
+        <div class="period-input-wrap">
+          <input id="period-range" type="text" readonly value="04/01/2026 → 06/30/2026" />
+        </div>
+        <p class="period-hint">Periode: 1-4-2026 – 30-6-2026</p>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn" id="pnl-expand-all">Alles uitklappen</button>
+        <button type="button" class="btn" id="pnl-collapse-all">Alles inklappen</button>
+      </div>
+    </div>
+
+    <p class="hint">
+      Voorbeeld volgens RGS: <strong>C</strong> in de bron = creditkolom, <strong>D</strong> = debetkolom (absolute waarde). Nullen worden niet getoond. Proefbalans/Saldibalans = V&amp;W; balans leeg. Uitklappen voor detail.
+    </p>
+
+    <div class="sheet">
+      <table>
+        <colgroup>
+          <col class="col-acc" />
+          <col class="col-n" /><col class="col-n" />
+          <col class="col-n" /><col class="col-n" />
+          <col class="col-n" /><col class="col-n" />
+          <col class="col-n" /><col class="col-n" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th class="th-account" rowspan="2">Rekening <span class="th-curr-hint"></span></th>
+            <th class="th-group" colspan="2">Proefbalans</th>
+            <th class="th-group" colspan="2">Saldibalans</th>
+            <th class="th-group" colspan="2">Verlies &amp; Winst</th>
+            <th class="th-group" colspan="2">Balans</th>
+          </tr>
+          <tr>
+            <th class="th-sub group-start">Debet</th>
+            <th class="th-sub th-credit">Credit</th>
+            <th class="th-sub group-start">Debet</th>
+            <th class="th-sub th-credit">Credit</th>
+            <th class="th-sub group-start">Debet</th>
+            <th class="th-sub th-credit">Credit</th>
+            <th class="th-sub group-start">Debet</th>
+            <th class="th-sub th-credit">Credit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="parent-row row-zebra" data-parent="revenue">
+          <td class="account-col"><button type="button" class="expand-toggle" aria-expanded="false" id="revenue-btn">
+          <span class="chevron" aria-hidden="true">&#9656;</span><span>Totale opbrengsten</span></button></td>
+          <td class="num group-start" data-v="0"></td><td class="num" data-v="198"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="198"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="198"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="revenue">
+          <td class="account-col account-label"><span class="codes">WOmzNop 8001000</span> Opbrengsten (netto-omzet)</td><td class="num group-start" data-v="0"></td><td class="num" data-v="100"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="100"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="100"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="revenue">
+          <td class="account-col account-label"><span class="codes">WWivWop 8103000</span> Mutatie projecten</td><td class="num group-start" data-v="0"></td><td class="num" data-v="50"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="50"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="50"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="revenue">
+          <td class="account-col account-label"><span class="codes">WWivGpv 8104000</span> Geactiveerde eigen uren</td><td class="num group-start" data-v="0"></td><td class="num" data-v="1"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="1"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="1"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="revenue">
+          <td class="account-col account-label"><span class="codes">WOvbOvo 8213000</span> Overige opbrengsten</td><td class="num group-start" data-v="0"></td><td class="num" data-v="25"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="25"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="25"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="revenue">
+          <td class="account-col account-label"><span class="codes">WVheVuh 8301000</span> Vrijval herwaarderingsreserve</td><td class="num group-start" data-v="0"></td><td class="num" data-v="22"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="22"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="22"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="subtotal-row row-zebra hidden" data-subtotal="revenue">
+          <td class="account-col"><div class="cell-flex"><span class="acct-text">Totale opbrengsten</span>
+          <span class="tag tag--subtotal">Subtotaal</span></div></td><td class="num group-start" data-v="0"></td><td class="num" data-v="198"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="198"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="198"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="parent-row row-zebra" data-parent="inkoop">
+          <td class="account-col"><button type="button" class="expand-toggle" aria-expanded="false" id="inkoop-btn">
+          <span class="chevron" aria-hidden="true">&#9656;</span><span>Inkoopkosten</span></button></td>
+          <td class="num group-start" data-v="23"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="23"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="23"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="inkoop">
+          <td class="account-col account-label"><span class="codes">WKprKvg 7001000</span> Inkoopkosten</td><td class="num group-start" data-v="12"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="12"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="12"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="inkoop">
+          <td class="account-col account-label"><span class="codes">WKprKuw 7003000</span> Inhuur derden</td><td class="num group-start" data-v="11"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="11"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="11"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="subtotal-row row-zebra hidden" data-subtotal="inkoop">
+          <td class="account-col"><div class="cell-flex"><span class="acct-text">Inkoopkosten</span>
+          <span class="tag tag--subtotal">Subtotaal</span></div></td><td class="num group-start" data-v="23"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="23"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="23"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="kpi-row">
+          <td class="account-col"><div class="cell-flex"><span class="acct-text">Bruto marge</span>
+          <span class="tag tag--kpi">KPI</span></div></td><td class="num group-start" data-v="0"></td><td class="num" data-v="175"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="175"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="175"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="parent-row row-zebra" data-parent="personeel">
+          <td class="account-col"><button type="button" class="expand-toggle" aria-expanded="false" id="personeel-btn">
+          <span class="chevron" aria-hidden="true">&#9656;</span><span>Personeelskosten</span></button></td>
+          <td class="num group-start" data-v="23"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="23"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="23"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="personeel">
+          <td class="account-col account-label"><span class="codes">WPerLes 4001000</span> Lonen en salarissen</td><td class="num group-start" data-v="15"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="15"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="15"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="personeel">
+          <td class="account-col account-label"><span class="codes">WPerSol 4002000</span> Sociale lasten</td><td class="num group-start" data-v="5"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="5"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="5"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="personeel">
+          <td class="account-col account-label"><span class="codes">WPerPen 4003000</span> Pensioenlasten</td><td class="num group-start" data-v="4"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="4"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="4"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="personeel">
+          <td class="account-col account-label"><span class="codes">WPerLesLks 4001170</span> Loonkosten subsidies (LIV)</td><td class="num group-start" data-v="0"></td><td class="num" data-v="6"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="6"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="6"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="personeel">
+          <td class="account-col account-label"><span class="codes">WBedOvp 4012000</span> Overige personeelskosten</td><td class="num group-start" data-v="5"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="5"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="5"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="subtotal-row row-zebra hidden" data-subtotal="personeel">
+          <td class="account-col"><div class="cell-flex"><span class="acct-text">Personeelskosten</span>
+          <span class="tag tag--subtotal">Subtotaal</span></div></td><td class="num group-start" data-v="23"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="23"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="23"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="parent-row row-zebra" data-parent="bedrijf">
+          <td class="account-col"><button type="button" class="expand-toggle" aria-expanded="false" id="bedrijf-btn">
+          <span class="chevron" aria-hidden="true">&#9656;</span><span>Bedrijfskosten</span></button></td>
+          <td class="num group-start" data-v="19"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="19"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="19"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="bedrijf">
+          <td class="account-col account-label"><span class="codes">WBedHui 4201000</span> Huisvesting</td><td class="num group-start" data-v="1"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="1"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="1"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="bedrijf">
+          <td class="account-col account-label"><span class="codes">WBedEem 4202000</span> Onderhoudskosten</td><td class="num group-start" data-v="3"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="3"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="3"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="bedrijf">
+          <td class="account-col account-label"><span class="codes">WBedVkk 4203000</span> Verkoopkosten &amp; marketing</td><td class="num group-start" data-v="2"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="2"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="2"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="bedrijf">
+          <td class="account-col account-label"><span class="codes">WBedAut 4204000</span> Auto &amp; reiskosten</td><td class="num group-start" data-v="5"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="5"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="5"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="bedrijf">
+          <td class="account-col account-label"><span class="codes">WBedKan 4206000</span> Kantoorkosten</td><td class="num group-start" data-v="1"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="1"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="1"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="bedrijf">
+          <td class="account-col account-label"><span class="codes">WBedAss 4208000</span> Verzekeringen</td><td class="num group-start" data-v="3"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="3"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="3"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="bedrijf">
+          <td class="account-col account-label"><span class="codes">WBedAea 4209000</span> Advies &amp; administratiekosten</td><td class="num group-start" data-v="4"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="4"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="4"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="bedrijf">
+          <td class="account-col account-label"><span class="codes">WBedKse 4212000</span> Kosten stamrecht</td><td class="num group-start" data-v="1"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="1"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="1"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="bedrijf">
+          <td class="account-col account-label"><span class="codes">WBwvObw 4106009</span> Afwaardering voorraad/debiteuren</td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="bedrijf">
+          <td class="account-col account-label"><span class="codes">WBedAlk 4215000</span> Overige kosten</td><td class="num group-start" data-v="0"></td><td class="num" data-v="1"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="1"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="1"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="subtotal-row row-zebra hidden" data-subtotal="bedrijf">
+          <td class="account-col"><div class="cell-flex"><span class="acct-text">Bedrijfskosten</span>
+          <span class="tag tag--subtotal">Subtotaal</span></div></td><td class="num group-start" data-v="19"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="19"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="19"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="kpi-row">
+          <td class="account-col"><div class="cell-flex"><span class="acct-text">EBITDA</span>
+          <span class="tag tag--kpi">KPI</span></div></td><td class="num group-start" data-v="0"></td><td class="num" data-v="133"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="133"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="133"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="parent-row row-zebra" data-parent="afschrijving">
+          <td class="account-col"><button type="button" class="expand-toggle" aria-expanded="false" id="afschrijving-btn">
+          <span class="chevron" aria-hidden="true">&#9656;</span><span>Afschrijvingen</span></button></td>
+          <td class="num group-start" data-v="22"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="22"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="22"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="afschrijving">
+          <td class="account-col account-label"><span class="codes">WAfsAiv 4101000</span> Afschrijving (immaterieel)</td><td class="num group-start" data-v="12"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="12"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="12"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="afschrijving">
+          <td class="account-col account-label"><span class="codes">WAfsAmv 4102000</span> Afschrijving (materieel)</td><td class="num group-start" data-v="15"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="15"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="15"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="afschrijving">
+          <td class="account-col account-label"><span class="codes">WAfsRvi 4105000</span> Resultaat verkoop actief (immaterieel)</td><td class="num group-start" data-v="0"></td><td class="num" data-v="2"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="2"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="2"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="afschrijving">
+          <td class="account-col account-label"><span class="codes">WAfsRvm 4106000</span> Resultaat verkoop actief (materieel)</td><td class="num group-start" data-v="0"></td><td class="num" data-v="3"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="3"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="3"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="subtotal-row row-zebra hidden" data-subtotal="afschrijving">
+          <td class="account-col"><div class="cell-flex"><span class="acct-text">Afschrijvingen</span>
+          <span class="tag tag--subtotal">Subtotaal</span></div></td><td class="num group-start" data-v="22"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="22"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="22"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="kpi-row">
+          <td class="account-col"><div class="cell-flex"><span class="acct-text">EBIT</span>
+          <span class="tag tag--kpi">KPI</span></div></td><td class="num group-start" data-v="0"></td><td class="num" data-v="111"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="111"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="111"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="parent-row row-zebra" data-parent="financieel">
+          <td class="account-col"><button type="button" class="expand-toggle" aria-expanded="false" id="financieel-btn">
+          <span class="chevron" aria-hidden="true">&#9656;</span><span>Financiële opbrengsten en kosten</span></button></td>
+          <td class="num group-start" data-v="8"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="8"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="8"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="financieel">
+          <td class="account-col account-label"><span class="codes">WFbeRlm 8402000</span> Rente-opbrengsten</td><td class="num group-start" data-v="0"></td><td class="num" data-v="2"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="2"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="2"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="financieel">
+          <td class="account-col account-label"><span class="codes">WFbeRls 8404000</span> Rente-kosten</td><td class="num group-start" data-v="15"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="15"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="15"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="financieel">
+          <td class="account-col account-label"><span class="codes">WFbeRlsRgi 8404080</span> Rente-kosten groepsentiteiten</td><td class="num group-start" data-v="3"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="3"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="3"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="financieel">
+          <td class="account-col account-label"><span class="codes">WFbeRlsRmi 8404150</span> Rente-kosten overige entiteiten</td><td class="num group-start" data-v="2"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="2"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="2"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="financieel">
+          <td class="account-col account-label"><span class="codes">WOvtRof 8401000</span> Opbrengst beleggingen</td><td class="num group-start" data-v="0"></td><td class="num" data-v="5"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="5"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="5"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="financieel">
+          <td class="account-col account-label"><span class="codes">WWfaBwv 8405000</span> Waardeverandering belegging</td><td class="num group-start" data-v="2"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="2"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="2"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="financieel">
+          <td class="account-col account-label"><span class="codes">WBwvGwb 4106200</span> Koerswinst/verlies (gerealiseerd)</td><td class="num group-start" data-v="0"></td><td class="num" data-v="1"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="1"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="1"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="financieel">
+          <td class="account-col account-label"><span class="codes">WFbeVlr 8519000</span> Valutaverschil lening</td><td class="num group-start" data-v="0"></td><td class="num" data-v="1"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="1"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="1"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra hidden" data-breakdown="financieel">
+          <td class="account-col account-label"><span class="codes">WRedAir 8410000</span> Resultaat deelneming</td><td class="num group-start" data-v="0"></td><td class="num" data-v="5"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="5"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="5"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="subtotal-row row-zebra hidden" data-subtotal="financieel">
+          <td class="account-col"><div class="cell-flex"><span class="acct-text">Financiële opbrengsten en kosten</span>
+          <span class="tag tag--subtotal">Subtotaal</span></div></td><td class="num group-start" data-v="8"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="8"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="8"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="kpi-row">
+          <td class="account-col"><div class="cell-flex"><span class="acct-text">Resultaat vóór belasting (EBT)</span>
+          <span class="tag tag--kpi">KPI</span></div></td><td class="num group-start" data-v="0"></td><td class="num" data-v="103"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="103"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="103"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="footer-hint">Europees formaat. Debet/credit volgens RGS (D = debetbedrag, C = creditbedrag; geen tonen bij 0). Totalen: bruto marge 175, EBITDA 133, EBIT 111, EBT 103.</p>
+  </div>
+
+  <script>
+    (function () {
+      var statementCurrency = "EUR";
+
+      function injectAccountCurrency() {
+        document.querySelectorAll("tbody tr td.account-col").forEach(function (td) {
+          if (td.querySelector(".acct-currency")) return;
+          var cur = document.createElement("span");
+          cur.className = "acct-currency";
+          cur.setAttribute("lang", "nl");
+          cur.textContent = statementCurrency;
+          if (td.querySelector(".cell-flex")) {
+            td.appendChild(cur);
+          } else if (td.querySelector(".expand-toggle")) {
+            td.appendChild(cur);
+          } else {
+            var main = document.createElement("span");
+            main.className = "acct-main";
+            while (td.firstChild) main.appendChild(td.firstChild);
+            td.appendChild(main);
+            td.appendChild(cur);
+          }
+        });
+      }
+
+      function formatEur(n) {
+        var parts = Math.abs(n).toFixed(2).split(".");
+        var intPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        return intPart + "," + parts[1];
+      }
+
+      function paintCell(td) {
+        var raw = td.getAttribute("data-v");
+        if (raw === null || String(raw).trim() === "") {
+          td.textContent = "";
+          td.classList.remove("amount-zero", "amount-active");
+          return;
+        }
+        var v = Number(raw);
+        if (v === 0 || isNaN(v)) {
+          td.textContent = "";
+          td.classList.remove("amount-zero", "amount-active");
+          return;
+        }
+        td.textContent = formatEur(v);
+        td.classList.remove("amount-zero");
+        td.classList.add("amount-active");
+      }
+
+      function clearCell(td) {
+        td.textContent = "";
+        td.classList.remove("amount-zero", "amount-active");
+      }
+
+      function paintRow(tr) {
+        if (tr.classList.contains("parent-row")) return;
+        tr.querySelectorAll("td.num").forEach(paintCell);
+      }
+
+      injectAccountCurrency();
+      document.querySelectorAll("tbody tr").forEach(paintRow);
+
+      var sectionSetters = [];
+
+      document.querySelectorAll(".parent-row[data-parent]").forEach(function (parent) {
+        var id = parent.getAttribute("data-parent");
+        var btn = parent.querySelector(".expand-toggle");
+        if (!btn) return;
+        var breakdownRows = document.querySelectorAll('[data-breakdown="' + id + '"]');
+        var subtotal = document.querySelector('tr.subtotal-row[data-subtotal="' + id + '"]');
+        var parentNums = parent.querySelectorAll("td.num");
+        var labelSpan = btn.querySelector("span:last-of-type");
+        var baseLabel = (labelSpan && labelSpan.textContent) ? labelSpan.textContent.trim() : "sectie";
+
+        function setOpen(open) {
+          btn.setAttribute("aria-expanded", open ? "true" : "false");
+          btn.setAttribute("aria-label", (open ? "Inklappen " : "Uitklappen ") + baseLabel);
+          parent.classList.toggle("is-open", open);
+          breakdownRows.forEach(function (r) {
+            r.classList.toggle("hidden", !open);
+          });
+          if (subtotal) subtotal.classList.toggle("hidden", !open);
+          if (open) parentNums.forEach(clearCell);
+          else parentNums.forEach(paintCell);
+        }
+
+        sectionSetters.push(setOpen);
+        setOpen(false);
+        btn.addEventListener("click", function () {
+          var open = btn.getAttribute("aria-expanded") === "true";
+          setOpen(!open);
+        });
+      });
+
+      var expandAllBtn = document.getElementById("pnl-expand-all");
+      var collapseAllBtn = document.getElementById("pnl-collapse-all");
+      if (expandAllBtn) {
+        expandAllBtn.addEventListener("click", function () {
+          sectionSetters.forEach(function (fn) { fn(true); });
+        });
+      }
+      if (collapseAllBtn) {
+        collapseAllBtn.addEventListener("click", function () {
+          sectionSetters.forEach(function (fn) { fn(false); });
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
