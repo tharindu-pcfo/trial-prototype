@@ -49,43 +49,9 @@
       display: flex;
       flex-wrap: wrap;
       align-items: flex-end;
-      justify-content: space-between;
+      justify-content: flex-end;
       gap: 1rem;
       margin-bottom: 0.75rem;
-    }
-
-    .period-block label {
-      display: block;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--muted);
-      margin-bottom: 0.35rem;
-    }
-
-    .period-input-wrap {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.45rem 0.65rem;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      box-shadow: var(--shadow);
-      min-width: 280px;
-    }
-
-    .period-input-wrap input {
-      flex: 1;
-      border: none;
-      font: inherit;
-      color: var(--ink);
-      outline: none;
-    }
-
-    .period-hint {
-      margin: 0.35rem 0 0;
-      font-size: 12px;
-      color: var(--muted);
     }
 
     .btn {
@@ -417,16 +383,10 @@
 <body>
   <div class="page">
     <div class="toolbar">
-      <div class="period-block">
-        <label for="period-range">Periode</label>
-        <div class="period-input-wrap">
-          <input id="period-range" type="text" readonly value="04/01/2026 → 06/30/2026" />
-        </div>
-        <p class="period-hint">Periode: 1-4-2026 – 30-6-2026</p>
-      </div>
       <div class="actions">
         <button type="button" class="btn" id="pnl-expand-all">Alles uitklappen</button>
         <button type="button" class="btn" id="pnl-collapse-all">Alles inklappen</button>
+        <button type="button" class="btn" id="pnl-export">Exporteren (CSV)</button>
       </div>
     </div>
 
@@ -698,6 +658,108 @@
       if (collapseAllBtn) {
         collapseAllBtn.addEventListener("click", function () {
           sectionSetters.forEach(function (fn) { fn(false); });
+        });
+      }
+
+      var CSV_HEADERS = [
+        "Rekening",
+        "Proefbalans Debet", "Proefbalans Credit",
+        "Saldibalans Debet", "Saldibalans Credit",
+        "V&W Debet", "V&W Credit",
+        "Balans Debet", "Balans Credit"
+      ];
+
+      function csvEscape(value) {
+        var s = value == null ? "" : String(value);
+        if (/[",\n;]/.test(s)) {
+          return '"' + s.replace(/"/g, '""') + '"';
+        }
+        return s;
+      }
+
+      function getRowLabel(tr) {
+        var cell = tr.querySelector("td.account-col");
+        if (!cell) return "";
+        var clone = cell.cloneNode(true);
+        clone.querySelectorAll(".acct-currency, .chevron, .tag").forEach(function (el) {
+          el.parentNode.removeChild(el);
+        });
+        return clone.textContent.replace(/\s+/g, " ").trim();
+      }
+
+      function getNumCells(tr) {
+        return Array.prototype.slice.call(tr.querySelectorAll("td.num"));
+      }
+
+      function numCellValue(td) {
+        var raw = td.getAttribute("data-v");
+        if (raw === null || String(raw).trim() === "") return "";
+        var v = Number(raw);
+        if (!v || isNaN(v)) return "";
+        return formatEur(v);
+      }
+
+      function rowToCsv(tr, opts) {
+        var label = getRowLabel(tr);
+        if (opts && opts.prefix) label = opts.prefix + label;
+        var cols = [label];
+        var nums = getNumCells(tr);
+        if (opts && opts.blankNums) {
+          for (var i = 0; i < 8; i++) cols.push("");
+        } else {
+          nums.forEach(function (td) { cols.push(numCellValue(td)); });
+          while (cols.length < 9) cols.push("");
+        }
+        return cols.map(csvEscape).join(",");
+      }
+
+      function buildCollapsedCsv() {
+        var lines = [CSV_HEADERS.map(csvEscape).join(",")];
+        document.querySelectorAll("tbody tr").forEach(function (tr) {
+          if (tr.classList.contains("parent-row")) {
+            lines.push(rowToCsv(tr, { blankNums: false }));
+          } else if (tr.classList.contains("kpi-row")) {
+            lines.push(rowToCsv(tr, { blankNums: false }));
+          }
+        });
+        return lines.join("\n");
+      }
+
+      function buildExpandedCsv() {
+        var lines = [CSV_HEADERS.map(csvEscape).join(",")];
+        document.querySelectorAll("tbody tr").forEach(function (tr) {
+          if (tr.classList.contains("parent-row")) {
+            lines.push(rowToCsv(tr, { blankNums: true }));
+          } else if (tr.classList.contains("breakdown-row")) {
+            lines.push(rowToCsv(tr, { prefix: "    " }));
+          } else if (tr.classList.contains("subtotal-row")) {
+            lines.push(rowToCsv(tr, { prefix: "Subtotaal - " }));
+          } else if (tr.classList.contains("kpi-row")) {
+            lines.push(rowToCsv(tr));
+          }
+        });
+        return lines.join("\n");
+      }
+
+      function downloadCsv(filename, csv) {
+        var blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(function () { URL.revokeObjectURL(url); }, 0);
+      }
+
+      var exportBtn = document.getElementById("pnl-export");
+      if (exportBtn) {
+        exportBtn.addEventListener("click", function () {
+          downloadCsv("proefbalans-ingeklapt.csv", buildCollapsedCsv());
+          setTimeout(function () {
+            downloadCsv("proefbalans-uitgeklapt.csv", buildExpandedCsv());
+          }, 150);
         });
       }
     })();
