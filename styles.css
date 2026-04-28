@@ -270,6 +270,26 @@ tr.kpi-row td.num.amount-zero {
   color: var(--zero);
 }
 
+tr.net-winst-bv-row td.account-col {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--kpi-label);
+}
+
+tr.net-winst-bv-row .acct-main {
+  font-weight: 700;
+  color: var(--kpi-label);
+}
+
+tr.net-winst-bv-row td.num {
+  font-size: 13px;
+}
+
+tr.net-winst-bv-row td.num.amount-active {
+  font-weight: 700;
+  color: var(--ink);
+}
+
 .cell-flex {
   display: flex;
   align-items: baseline;

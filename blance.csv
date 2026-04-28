@@ -1,0 +1,76 @@
+ACTIVA					
+BIvaKou	101000	Vaste Activa	Immaterieel	Immateriële activa - oprichting	D
+BIvaKoo	102000	Vaste Activa	Immaterieel	Immateriële activa - R&D	D
+BIvaCev	106000	Vaste Activa	Immaterieel	Immateriële activa - IP	D
+BIvaGoo	107000	Vaste Activa	Immaterieel	Goodwill	D
+BMvaTer	201000	Vaste Activa	Materieel	Grond	D
+BMvaBeg	202000	Vaste Activa	Materieel	Bedrijfspand	D
+BMvaVer	203000	Vaste Activa	Materieel	Verbouwingen	D
+BMvaMei	210000	Vaste Activa	Materieel	Machines - aanschaf	D
+BMvaTev	213000	Vaste Activa	Materieel	Auto's & andere vervoermiddelen	D
+BMvaBei	215000	Vaste Activa	Materieel	Inventaris & Inrichting	D
+BMvaObe	214000	Vaste Activa	Materieel	Andere vaste activa	D
+BFvaDig	301000	Vaste Activa	Financieel	Deelnemingen - Groepmij	D
+BFvaDio	302000	Vaste Activa	Financieel	Deelnemingen -Overig verbonden	D
+BFvaAnd	303000	Vaste Activa	Financieel	Deelnemingen- Overig	D
+BFvaOve	304000	Vaste Activa	Financieel	Beleggingen (lang)	D
+BFvaVog	305000	Vaste Activa	Financieel	Lening aan groepsmij.	D
+BFvaVop	306000	Vaste Activa	Financieel	Lening aan deelneming	D
+BFvaVov	307000	Vaste Activa	Financieel	Lening aan verbonden partij	D
+BFvaLbv	308000	Vaste Activa	Financieel	Belastingtegoed (lang)	D
+BFvaOvr	309000	Vaste Activa	Financieel	Overige vorderingen (lang)	D
+BFvaLen	320000	Vaste Activa	Financieel	Uitgeleende bedragen	D
+BVrdGeh	3002000	Vlottende Activa	Voorraad	Voorraad	D
+BProOnp	3501000	Vlottende Activa	Voorraad	Projecten in uitvoering	D
+BVorDeb	1101000	Vlottende Activa	Vorderingen	Debiteuren (Klanten)	D
+BVorVog	1103099	Vlottende Activa	Vorderingen	R/C Groepsmij.	D/C
+BVorVov	1103109	Vlottende Activa	Vorderingen	R/C Verbonden partijen	D/C
+BVorVop	1103119	Vlottende Activa	Vorderingen	R/C Deelneming	D/C
+BVorVao	1103129	Vlottende Activa	Vorderingen	Opgevraagd kapitaal	D
+BVorOvrRca	1103143	Vlottende Activa	Vorderingen	Rekening-courant aandeelhouders	D/C
+BVorVpk	1103149	Vlottende Activa	Vorderingen	Pensioenvordering	D
+BVorOva	1104000	Vlottende Activa	Vorderingen	Vooruitbetaalde kosten	D
+BEffOve	403000	Vlottende Activa	Effecten	Effecten	D
+BLimBan	1002000	Liquide Middelen	Bank	Bank	D
+BLimKas	1001000	Liquide Middelen	Kas	Kas	D
+BLimKru	1003000	Liquide Middelen	Tussenrekening	Interne overboekingen	D/C
+Total					
+					
+PASSIVA					
+BEivGok	501000	Eigen Vermogen	Kapitaal	Aandelenkapitaal	C
+BEivAgi	502000	Eigen Vermogen	Reserves	Agio	C
+BEivHer	503000	Eigen Vermogen	Reserves	Herwaarderingsreserve	C
+BEivWer	504000	Eigen Vermogen	Reserves	Wettelijke reserves	C
+BEivStr	505000	Eigen Vermogen	Reserves	Statutaire reserves	C
+BEivOvr	506000	Eigen Vermogen	Reserves	Overige reserves	C
+BEivOre	506009	Eigen Vermogen	Resultaat	Onverdeelde winst	C
+BEivKap	509000	Eigen Vermogen	Kapitaal	Eigen Vermogen EZ & VOF	C
+BEivAvd	508000	Eigen Vermogen	Kapitaal	Aandeel derden	C
+BEivFir	510000	Eigen Vermogen	Reserves	Fiscale reserves	C
+BVrzVvp	701000	Voorzieningen	Voorziening	Pensioenvoorziening	C
+BVrzVvb	702000	Voorzieningen	Voorziening	Belastingvoorziening	C
+BVrzOvz	704000	Voorzieningen	Voorziening	Overige voorzieningen	C
+BLasNeg	705000	Voorzieningen	Voorziening	Negatieve goodwill	C
+BLasSak	805000	Langlopend	Schuld	Banklening (lang)	C
+BLasAcl	801000	Langlopend	Schuld	Achtergestelde lening	C
+BLasCol	802000	Langlopend	Schuld	Converteerbare lening	C
+BLasAoe	803000	Langlopend	Schuld	Obligaties	C
+BLasFlv	804000	Langlopend	Schuld	Leasecontract (lang)	C
+BLasSag	806009	Langlopend	Schuld	Schuld aan groepsmij. (lang)	C
+BLasSao	806019	Langlopend	Schuld	Schuld aan verbonden partij (lang)	C
+BLasSap	806029	Langlopend	Schuld	Schuld aan deelneming (lang)	C
+BLasSal	806069	Langlopend	Schuld	Crediteuren (lang)	C
+BLasOdv	806148	Langlopend	Schuld	Oudedagsverplichting	C
+BLasOvp	806170	Langlopend	Schuld	Overlopende passiva (lang)	C
+BSchSak	1209029	Kortlopend	Bank	Roodstand Bank	C
+BSchCre	1203000	Kortlopend	Schuld	Crediteuren (Leveranciers)	C
+BSchKol	1201000	Kortlopend	Schuld	Kortlopende leningen	C
+BSchBepBtw	1205010	Kortlopend	Belastingen	BTW	D/C
+BSchBepLhe	1206010	Kortlopend	Belastingen	Loonbelasting & Premies Sociale Verzekeringen	D/C
+BSchBep	1205009	Kortlopend	Belastingen	Overige belastingen	D/C
+BSchSag	1208100	Kortlopend	Schuld	Schuld groepsmij. (kort)	C
+BSchSao	1208200	Kortlopend	Schuld	Schuld verbonden partij (kort)	C
+BSchSap	1208300	Kortlopend	Schuld	Schuld deelneming (kort)	C
+BSchOpp	1209119	Kortlopend	Schuld	Onderhanden projecten (passiva)	C
+BSchOpa	1210000	Kortlopend	Schuld	Nog te betalen kosten	C
+Total					
