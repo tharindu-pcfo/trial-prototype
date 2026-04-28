@@ -77,8 +77,7 @@ body {
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 10px;
-  overflow: auto;
-  max-height: calc(100vh - 160px);
+  overflow: visible;
 }
 
 table {
