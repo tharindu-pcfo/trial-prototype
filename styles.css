@@ -290,6 +290,24 @@ tr.net-winst-bv-row td.num.amount-active {
   color: var(--ink);
 }
 
+tr.balance-section-row td {
+  background: var(--thead);
+  border-top: 2px solid var(--group-rule);
+  padding-top: 0.65rem;
+  padding-bottom: 0.5rem;
+}
+
+tr.balance-section-row td.account-col {
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--ink);
+}
+
+.balance-section-title {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
 .cell-flex {
   display: flex;
   align-items: baseline;
