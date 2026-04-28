@@ -87,7 +87,6 @@
       background: var(--bg);
       border: 1px solid var(--border);
       border-radius: 10px;
-      box-shadow: var(--shadow);
       overflow: auto;
       max-height: calc(100vh - 160px);
     }
@@ -156,7 +155,7 @@
     }
 
     .th-sub.th-credit {
-      border-left: none;
+      border-left: 1px solid var(--border);
     }
 
     tbody td {
@@ -229,6 +228,10 @@
 
     td.num.group-start {
       border-left: 2px solid var(--group-rule);
+    }
+
+    td.num:not(.group-start) {
+      border-left: 1px solid var(--border);
     }
 
     td.num.amount-active {
@@ -342,11 +345,19 @@
     }
 
     .chevron {
-      width: 1rem;
+      display: inline-block;
+      width: 0.7rem;
+      height: 0.7rem;
       flex-shrink: 0;
       transition: transform 0.15s ease;
+      transform-origin: 50% 50%;
       color: var(--muted);
-      font-size: 0.6rem;
+    }
+
+    .chevron svg {
+      display: block;
+      width: 100%;
+      height: 100%;
     }
 
     tr.parent-row.is-open .chevron {
@@ -416,7 +427,7 @@
         <tbody>
           <tr class="parent-row row-zebra" data-parent="revenue">
           <td class="account-col"><button type="button" class="expand-toggle" aria-expanded="false" id="revenue-btn">
-          <span class="chevron" aria-hidden="true">&#9656;</span><span>Totale opbrengsten</span></button></td>
+          <span class="chevron" aria-hidden="true"><svg viewBox="0 0 10 10" fill="currentColor"><polygon points="3,1.5 3,8.5 8,5" /></svg></span><span>Totale opbrengsten</span></button></td>
           <td class="num group-start" data-v="0"></td><td class="num" data-v="198"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="198"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="198"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
           <tr class="breakdown-row row-zebra hidden" data-breakdown="revenue">
           <td class="account-col account-label"><span class="codes">WOmzNop 8001000</span> Opbrengsten (netto-omzet)</td><td class="num group-start" data-v="0"></td><td class="num" data-v="100"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="100"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="100"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
@@ -433,7 +444,7 @@
           <span class="tag tag--subtotal">Subtotaal</span></div></td><td class="num group-start" data-v="0"></td><td class="num" data-v="198"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="198"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="198"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
           <tr class="parent-row row-zebra" data-parent="inkoop">
           <td class="account-col"><button type="button" class="expand-toggle" aria-expanded="false" id="inkoop-btn">
-          <span class="chevron" aria-hidden="true">&#9656;</span><span>Inkoopkosten</span></button></td>
+          <span class="chevron" aria-hidden="true"><svg viewBox="0 0 10 10" fill="currentColor"><polygon points="3,1.5 3,8.5 8,5" /></svg></span><span>Inkoopkosten</span></button></td>
           <td class="num group-start" data-v="23"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="23"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="23"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
           <tr class="breakdown-row row-zebra hidden" data-breakdown="inkoop">
           <td class="account-col account-label"><span class="codes">WKprKvg 7001000</span> Inkoopkosten</td><td class="num group-start" data-v="12"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="12"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="12"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
@@ -447,7 +458,7 @@
           <span class="tag tag--kpi">KPI</span></div></td><td class="num group-start" data-v="0"></td><td class="num" data-v="175"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="175"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="175"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
           <tr class="parent-row row-zebra" data-parent="personeel">
           <td class="account-col"><button type="button" class="expand-toggle" aria-expanded="false" id="personeel-btn">
-          <span class="chevron" aria-hidden="true">&#9656;</span><span>Personeelskosten</span></button></td>
+          <span class="chevron" aria-hidden="true"><svg viewBox="0 0 10 10" fill="currentColor"><polygon points="3,1.5 3,8.5 8,5" /></svg></span><span>Personeelskosten</span></button></td>
           <td class="num group-start" data-v="23"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="23"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="23"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
           <tr class="breakdown-row row-zebra hidden" data-breakdown="personeel">
           <td class="account-col account-label"><span class="codes">WPerLes 4001000</span> Lonen en salarissen</td><td class="num group-start" data-v="15"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="15"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="15"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
@@ -464,7 +475,7 @@
           <span class="tag tag--subtotal">Subtotaal</span></div></td><td class="num group-start" data-v="23"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="23"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="23"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
           <tr class="parent-row row-zebra" data-parent="bedrijf">
           <td class="account-col"><button type="button" class="expand-toggle" aria-expanded="false" id="bedrijf-btn">
-          <span class="chevron" aria-hidden="true">&#9656;</span><span>Bedrijfskosten</span></button></td>
+          <span class="chevron" aria-hidden="true"><svg viewBox="0 0 10 10" fill="currentColor"><polygon points="3,1.5 3,8.5 8,5" /></svg></span><span>Bedrijfskosten</span></button></td>
           <td class="num group-start" data-v="19"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="19"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="19"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
           <tr class="breakdown-row row-zebra hidden" data-breakdown="bedrijf">
           <td class="account-col account-label"><span class="codes">WBedHui 4201000</span> Huisvesting</td><td class="num group-start" data-v="1"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="1"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="1"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
@@ -494,7 +505,7 @@
           <span class="tag tag--kpi">KPI</span></div></td><td class="num group-start" data-v="0"></td><td class="num" data-v="133"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="133"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="133"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
           <tr class="parent-row row-zebra" data-parent="afschrijving">
           <td class="account-col"><button type="button" class="expand-toggle" aria-expanded="false" id="afschrijving-btn">
-          <span class="chevron" aria-hidden="true">&#9656;</span><span>Afschrijvingen</span></button></td>
+          <span class="chevron" aria-hidden="true"><svg viewBox="0 0 10 10" fill="currentColor"><polygon points="3,1.5 3,8.5 8,5" /></svg></span><span>Afschrijvingen</span></button></td>
           <td class="num group-start" data-v="22"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="22"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="22"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
           <tr class="breakdown-row row-zebra hidden" data-breakdown="afschrijving">
           <td class="account-col account-label"><span class="codes">WAfsAiv 4101000</span> Afschrijving (immaterieel)</td><td class="num group-start" data-v="12"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="12"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="12"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
@@ -512,7 +523,7 @@
           <span class="tag tag--kpi">KPI</span></div></td><td class="num group-start" data-v="0"></td><td class="num" data-v="111"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="111"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="111"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
           <tr class="parent-row row-zebra" data-parent="financieel">
           <td class="account-col"><button type="button" class="expand-toggle" aria-expanded="false" id="financieel-btn">
-          <span class="chevron" aria-hidden="true">&#9656;</span><span>Financiële opbrengsten en kosten</span></button></td>
+          <span class="chevron" aria-hidden="true"><svg viewBox="0 0 10 10" fill="currentColor"><polygon points="3,1.5 3,8.5 8,5" /></svg></span><span>Financiële opbrengsten en kosten</span></button></td>
           <td class="num group-start" data-v="8"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="8"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="8"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
           <tr class="breakdown-row row-zebra hidden" data-breakdown="financieel">
           <td class="account-col account-label"><span class="codes">WFbeRlm 8402000</span> Rente-opbrengsten</td><td class="num group-start" data-v="0"></td><td class="num" data-v="2"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="2"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="2"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
