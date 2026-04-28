@@ -85,11 +85,11 @@ table {
   border-collapse: separate;
   border-spacing: 0;
   table-layout: fixed;
-  min-width: 1280px;
+  min-width: 880px;
 }
 
-col.col-acc { width: 30%; }
-col.col-n { width: 8.75%; }
+col.col-acc { width: 34%; }
+col.col-n { width: 16.5%; }
 
 thead {
   position: sticky;
