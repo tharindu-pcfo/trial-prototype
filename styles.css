@@ -1,0 +1,375 @@
+:root {
+  --bg: #ffffff;
+  --page: #f6f7f9;
+  --ink: #111827;
+  --muted: #6b7280;
+  --zero: #9ca3af;
+  --border: #e5e7eb;
+  --group-rule: #d1d5db;
+  --thead: #fafafa;
+  --stripe: #f9fafb;
+  --primary: #45aeea;
+  --kpi-bg: #ebeff1de;
+  --kpi-rule: #9ca3af;
+  --kpi-label: #1f2937;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 13px;
+  color: var(--ink);
+  background: var(--page);
+  line-height: 1.45;
+}
+
+.page {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 2rem;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.btn {
+  font: inherit;
+  font-weight: 600;
+  font-size: 12px;
+  padding: 0.45rem 0.85rem;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.btn:hover {
+  background: var(--stripe);
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.hint {
+  margin: 0 0 0.85rem;
+  font-size: 11px;
+  color: var(--muted);
+  max-width: 72ch;
+}
+
+.sheet {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: auto;
+  max-height: calc(100vh - 160px);
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+  min-width: 1280px;
+}
+
+col.col-acc { width: 30%; }
+col.col-n { width: 8.75%; }
+
+thead {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+thead th {
+  background: var(--thead);
+  font-weight: 700;
+  font-size: 11px;
+  color: var(--ink);
+  padding: 0.55rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+thead tr:first-child th {
+  padding-top: 0.65rem;
+  font-size: 12px;
+}
+
+.th-account {
+  text-align: left;
+  border-right: 1px solid var(--border);
+}
+
+.th-curr-hint {
+  font-weight: 500;
+  color: #374151;
+  font-size: 10px;
+}
+
+.th-group {
+  text-align: center;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  border-left: 2px solid var(--group-rule);
+}
+
+.th-group:first-of-type {
+  border-left: 2px solid var(--group-rule);
+}
+
+.th-sub {
+  text-align: right;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  font-weight: 700;
+  border-left: 2px solid var(--group-rule);
+}
+
+.th-sub.th-credit {
+  border-left: 1px solid var(--border);
+}
+
+tbody td {
+  padding: 0.45rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr.row-zebra:nth-child(even) {
+  background: var(--stripe);
+}
+
+td.account-col {
+  border-right: 1px solid var(--border);
+}
+
+tbody td.account-col {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.35rem;
+}
+
+tbody td.account-col > .acct-main {
+  flex: 1;
+  min-width: 0;
+}
+
+tbody td.account-col > .expand-toggle {
+  flex: 1;
+  min-width: 0;
+  width: auto;
+}
+
+tbody td.account-col > .cell-flex {
+  flex: 1;
+  min-width: 0;
+}
+
+.acct-currency {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.acct-currency::before {
+  content: "–";
+  margin-right: 0.35rem;
+  color: var(--border);
+  font-weight: 400;
+}
+
+tr.kpi-row td.account-col .acct-currency {
+  font-weight: 500;
+  color: var(--muted);
+}
+
+td.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+}
+
+td.num.group-start {
+  border-left: 2px solid var(--group-rule);
+}
+
+td.num:not(.group-start) {
+  border-left: 1px solid var(--border);
+}
+
+td.num.amount-active {
+  font-weight: 400;
+  color: var(--ink);
+}
+
+td.num.amount-zero {
+  font-weight: 400;
+  color: var(--zero);
+}
+
+tr.subtotal-row td.num.amount-active {
+  font-weight: 700;
+  color: #374151;
+}
+
+tr.kpi-row td {
+  background: var(--kpi-bg);
+  border-top: 1px dashed var(--kpi-rule);
+  padding-top: 0.85rem;
+  padding-bottom: 0.7rem;
+}
+
+tr.kpi-row td.account-col {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--kpi-label);
+}
+
+tr.kpi-row .acct-text {
+  font-weight: 700;
+  color: var(--kpi-label);
+}
+
+tr.kpi-row td.num {
+  font-size: 13px;
+}
+
+tr.kpi-row td.num.amount-active {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+tr.kpi-row td.num.amount-zero {
+  font-weight: 400;
+  color: var(--zero);
+}
+
+.cell-flex {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.tag {
+  flex-shrink: 0;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.12rem 0.35rem;
+  border-radius: 3px;
+}
+
+.tag--subtotal {
+  color: var(--muted);
+  background: rgba(107, 114, 128, 0.12);
+  border: 1px dashed var(--border);
+}
+
+.tag--kpi {
+  color: #4b5563;
+  background: rgba(75, 85, 99, 0.12);
+  border: 1px dashed #9ca3af;
+}
+
+tr.subtotal-row td {
+  border-top: 1px dashed #9ca3af;
+  padding-top: 0.55rem;
+}
+
+tr.subtotal-row .acct-text {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.expand-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  color: var(--ink);
+}
+
+.expand-toggle:hover {
+  color: var(--primary);
+}
+
+.expand-toggle:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.chevron {
+  display: inline-block;
+  width: 0.7rem;
+  height: 0.7rem;
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+  transform-origin: 50% 50%;
+  color: var(--muted);
+}
+
+.chevron svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+tr.parent-row.is-open .chevron {
+  transform: rotate(90deg);
+}
+
+.breakdown-row .account-col .acct-main {
+  padding-left: 1.35rem;
+  border-left: 2px solid var(--border);
+  margin-left: 0.25rem;
+  font-weight: 400;
+  color: #4b5563;
+}
+
+.account-label .codes {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 500;
+  margin-right: 0.35rem;
+}
+
+.breakdown-row.hidden,
+tr.subtotal-row.hidden {
+  display: none;
+}
