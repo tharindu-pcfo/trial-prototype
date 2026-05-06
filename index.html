@@ -12,6 +12,10 @@
 <body>
   <div class="page">
     <div class="toolbar">
+      <label class="entity-toggle">
+        <input type="checkbox" id="entity-bv-toggle" checked />
+        <span>Weergave voor BV</span>
+      </label>
       <div class="actions">
         <button type="button" class="btn" id="pnl-expand-all">Alles uitklappen</button>
         <button type="button" class="btn" id="pnl-collapse-all">Alles inklappen</button>
@@ -172,6 +176,16 @@
           <tr class="kpi-row">
           <td class="account-col"><div class="cell-flex"><span class="acct-text">Resultaat vóór belasting (EBT)</span>
           <span class="tag tag--kpi">KPI</span></div></td><td class="num group-start" data-v="0"></td><td class="num" data-v="103"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="103"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="103"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra post-ebt-detail" data-entity-profile="bv">
+          <td class="account-col account-label">Vennootschapsbelasting (Vpb)</td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="25"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="breakdown-row row-zebra post-ebt-detail" data-entity-profile="bv">
+          <td class="account-col account-label">Resultaat aandeel derden</td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="5"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="kpi-row" data-entity-profile="bv">
+          <td class="account-col"><div class="cell-flex"><span class="acct-text">Netto winst (BV)</span>
+          <span class="tag tag--kpi">KPI</span></div></td><td class="num group-start" data-v="0"></td><td class="num" data-v="83"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="83"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="83"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
+          <tr class="kpi-row" data-entity-profile="ez-vof">
+          <td class="account-col"><div class="cell-flex"><span class="acct-text">Netto winst (EZ/VOF)</span>
+          <span class="tag tag--kpi">KPI</span></div></td><td class="num group-start" data-v="0"></td><td class="num" data-v="103"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="103"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="103"></td><td class="num group-start" data-v="0"></td><td class="num" data-v="0"></td></tr>
         </tbody>
       </table>
     </div>
@@ -239,6 +253,23 @@
 
       injectAccountCurrency();
       document.querySelectorAll("tbody tr").forEach(paintRow);
+
+      function applyEntityProfile() {
+        var toggle = document.getElementById("entity-bv-toggle");
+        if (!toggle) return;
+        var bv = toggle.checked;
+        document.querySelectorAll("[data-entity-profile]").forEach(function (tr) {
+          var p = tr.getAttribute("data-entity-profile");
+          var show = (bv && p === "bv") || (!bv && p === "ez-vof");
+          tr.classList.toggle("entity-profile-hidden", !show);
+        });
+      }
+
+      applyEntityProfile();
+      var entityToggle = document.getElementById("entity-bv-toggle");
+      if (entityToggle) {
+        entityToggle.addEventListener("change", applyEntityProfile);
+      }
 
       var sectionSetters = [];
 
@@ -340,8 +371,11 @@
       function buildCollapsedCsv() {
         var lines = [CSV_HEADERS.map(csvEscape).join(",")];
         document.querySelectorAll("tbody tr").forEach(function (tr) {
+          if (tr.classList.contains("entity-profile-hidden")) return;
           if (tr.classList.contains("parent-row")) {
             lines.push(rowToCsv(tr, { blankNums: false }));
+          } else if (tr.classList.contains("post-ebt-detail")) {
+            lines.push(rowToCsv(tr, { prefix: "    " }));
           } else if (tr.classList.contains("kpi-row")) {
             lines.push(rowToCsv(tr, { blankNums: false }));
           }
@@ -352,6 +386,7 @@
       function buildExpandedCsv() {
         var lines = [CSV_HEADERS.map(csvEscape).join(",")];
         document.querySelectorAll("tbody tr").forEach(function (tr) {
+          if (tr.classList.contains("entity-profile-hidden")) return;
           if (tr.classList.contains("parent-row")) {
             lines.push(rowToCsv(tr, { blankNums: true }));
           } else if (tr.classList.contains("breakdown-row")) {
