@@ -67,6 +67,15 @@ tr.entity-profile-hidden {
   display: none;
 }
 
+.parent-row[data-parent="bs-activa"] td {
+  border-top: 2px solid var(--kpi-rule);
+  padding-top: 0.65rem;
+}
+
+.parent-row[data-parent="bs-activa"] td.account-col {
+  padding-top: 0.65rem;
+}
+
 .btn {
   font: inherit;
   font-weight: 600;

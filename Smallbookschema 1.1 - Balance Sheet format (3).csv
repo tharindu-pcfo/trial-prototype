@@ -1,0 +1,78 @@
+RGS Code,Referentienummer,Groep,Subgroep,Omschrijving,(D/C),Remarks,Show order
+ACTIVA,,,,,,,
+BIvaKou,101000,Vaste Activa,Immaterieel,Immateriële activa - oprichting,D,,1
+BIvaKoo,102000,Vaste Activa,Immaterieel,Immateriële activa - R&D,D,,2
+BIvaCev,106000,Vaste Activa,Immaterieel,Immateriële activa - IP,D,,3
+BIvaGoo,107000,Vaste Activa,Immaterieel,Goodwill,D,,4
+BMvaTer,201000,Vaste Activa,Materieel,Grond,D,,5
+BMvaBeg,202000,Vaste Activa,Materieel,Bedrijfspand,D,,6
+BMvaVer,203000,Vaste Activa,Materieel,Verbouwingen,D,,7
+BMvaMei,210000,Vaste Activa,Materieel,Machines - aanschaf,D,,8
+BMvaTev,213000,Vaste Activa,Materieel,Auto's & andere vervoermiddelen,D,,9
+BMvaBei,215000,Vaste Activa,Materieel,Inventaris & Inrichting,D,,10
+BMvaObe,214000,Vaste Activa,Materieel,Andere vaste activa,D,,11
+BFvaDig,301000,Vaste Activa,Financieel,Deelnemingen - Groepmij,D,,12
+BFvaDio,302000,Vaste Activa,Financieel,Deelnemingen -Overig verbonden,D,,13
+BFvaAnd,303000,Vaste Activa,Financieel,Deelnemingen- Overig,D,,14
+BFvaOve,304000,Vaste Activa,Financieel,Beleggingen (lang),D,,15
+BFvaVog,305000,Vaste Activa,Financieel,Lening aan groepsmij.,D,,16
+BFvaVop,306000,Vaste Activa,Financieel,Lening aan deelneming,D,,17
+BFvaVov,307000,Vaste Activa,Financieel,Lening aan verbonden partij,D,,18
+BFvaLbv,308000,Vaste Activa,Financieel,Belastingtegoed (lang),D,,19
+BFvaOvr,309000,Vaste Activa,Financieel,Overige vorderingen (lang),D,,20
+BFvaLen,320000,Vaste Activa,Financieel,Uitgeleende bedragen,D,,21
+BVrdGeh,3002000,Vlottende Activa,Voorraad,Voorraad,D,,22
+BProOnp,3501000,Vlottende Activa,Voorraad,Projecten in uitvoering,D,,23
+BVorDeb,1101000,Vlottende Activa,Vorderingen,Debiteuren (Klanten),D,,24
+BVorVog,1103099,Vlottende Activa,Vorderingen,R/C Groepsmij.,D/C,,25
+BVorVov,1103109,Vlottende Activa,Vorderingen,R/C Verbonden partijen,D/C,,26
+BVorVop,1103119,Vlottende Activa,Vorderingen,R/C Deelneming,D/C,,27
+BVorVao,1103129,Vlottende Activa,Vorderingen,Opgevraagd kapitaal,D,,28
+BVorOvrRca,1103143,Vlottende Activa,Vorderingen,Rekening-courant aandeelhouders,D/C,,29
+BVorVpk,1103149,Vlottende Activa,Vorderingen,Pensioenvordering,D,,30
+BVorOva,1104000,Vlottende Activa,Vorderingen,Vooruitbetaalde kosten,D,,31
+BEffOve,403000,Vlottende Activa,Effecten,Effecten,D,,32
+BLimBan,1002000,Liquide Middelen,Bank,Bank,D,,33
+BLimKas,1001000,Liquide Middelen,Kas,Kas,D,,34
+BLimKru,1003000,Liquide Middelen,Tussenrekening,Interne overboekingen,D/C,,35
+Total,,,,,,,
+,,,,,,,
+PASSIVA,,,,,,,
+BEivGok,501000,Eigen Vermogen,Kapitaal,Aandelenkapitaal,C,,36
+BEivAgi,502000,Eigen Vermogen,Reserves,Agio,C,,37
+BEivHer,503000,Eigen Vermogen,Reserves,Herwaarderingsreserve,C,,38
+BEivWer,504000,Eigen Vermogen,Reserves,Wettelijke reserves,C,,39
+BEivStr,505000,Eigen Vermogen,Reserves,Statutaire reserves,C,,40
+BEivOvr,506000,Eigen Vermogen,Reserves,Overige reserves,C,,41
+BEivOre,506009,Eigen Vermogen,Resultaat,Onverdeelde winst,C,"This shows plug of profit since start of year. At the end of each year, the accumulated profit goes to GL account 50600, and the account 506009 is cleared",42
+BEivKap,509000,Eigen Vermogen,Kapitaal,Eigen Vermogen EZ & VOF,C,Show for Eenmanszaak and VOF,43
+BEivAvd,508000,Eigen Vermogen,Kapitaal,Aandeel derden,C,,44
+BEivFir,510000,Eigen Vermogen,Reserves,Fiscale reserves,C,,45
+BVrzVvp,701000,Voorzieningen,Voorziening,Pensioenvoorziening,C,,46
+BVrzVvb,702000,Voorzieningen,Voorziening,Belastingvoorziening,C,,47
+BVrzOvz,704000,Voorzieningen,Voorziening,Overige voorzieningen,C,,48
+BLasNeg,705000,Voorzieningen,Voorziening,Negatieve goodwill,C,,49
+BLasSak,805000,Langlopend,Schuld,Banklening (lang),C,,50
+BLasAcl,801000,Langlopend,Schuld,Achtergestelde lening,C,,51
+BLasCol,802000,Langlopend,Schuld,Converteerbare lening,C,,52
+BLasAoe,803000,Langlopend,Schuld,Obligaties,C,,53
+BLasFlv,804000,Langlopend,Schuld,Leasecontract (lang),C,,54
+BLasSag,806009,Langlopend,Schuld,Schuld aan groepsmij. (lang),C,,55
+BLasSao,806019,Langlopend,Schuld,Schuld aan verbonden partij (lang),C,,56
+BLasSap,806029,Langlopend,Schuld,Schuld aan deelneming (lang),C,,57
+BLasSal,806069,Langlopend,Schuld,Crediteuren (lang),C,,58
+BLasOdv,806148,Langlopend,Schuld,Oudedagsverplichting,C,,59
+BLasOvp,806170,Langlopend,Schuld,Overlopende passiva (lang),C,,60
+BSchSak,1209029,Kortlopend,Bank,Roodstand Bank,C,,61
+BSchCre,1203000,Kortlopend,Schuld,Crediteuren (Leveranciers),C,,62
+BSchKol,1201000,Kortlopend,Schuld,Kortlopende leningen,C,,63
+BSchBepBtw,1205010,Kortlopend,Belastingen,BTW,D/C,,64
+BSchBepLhe,1206010,Kortlopend,Belastingen,Loonbelasting & Premies Sociale Verzekeringen,D/C,,65
+BSchBep,1205009,Kortlopend,Belastingen,Overige belastingen,D/C,,66
+BSchSag,1208100,Kortlopend,Schuld,Schuld groepsmij. (kort),C,,67
+BSchSao,1208200,Kortlopend,Schuld,Schuld verbonden partij (kort),C,,68
+BSchSap,1208300,Kortlopend,Schuld,Schuld deelneming (kort),C,,69
+BSchOpp,1209119,Kortlopend,Schuld,Onderhanden projecten (passiva),C,,70
+BSchOpa,1210000,Kortlopend,Schuld,Nog te betalen kosten,C,,71
+BSchTusTovTvp,1229020,Kortlopend,Schuld,Tussenrekening vraagposten,D/C,,72
+Total,,,,,,,
