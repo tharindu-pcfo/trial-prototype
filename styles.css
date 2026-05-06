@@ -124,8 +124,8 @@ tr.section-title-row--balance td.section-title-cell {
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 10px;
-  overflow: auto;
-  max-height: calc(100vh - 160px);
+  overflow: visible;
+  max-height: none;
 }
 
 table {
