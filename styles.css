@@ -68,15 +68,15 @@ tr.entity-profile-hidden {
 }
 
 tr.section-title-row td.section-title-cell {
-  padding: 0.72rem 0.6rem;
+  padding: 0.9rem 0.7rem;
   border-top: 2px solid var(--kpi-rule);
   border-bottom: 1px solid var(--border);
   background: #f3f5f7;
   color: #374151;
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
 }
 
 tr.section-title-row--balance td.section-title-cell {
