@@ -136,8 +136,8 @@ table {
   min-width: 1280px;
 }
 
-col.col-acc { width: 30%; }
-col.col-n { width: 8.75%; }
+col.col-acc { width: 42%; }
+col.col-n { width: 7.25%; }
 
 thead {
   position: sticky;
