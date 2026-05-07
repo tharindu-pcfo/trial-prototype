@@ -1,0 +1,76 @@
+Vaste Activa	Immaterieel	Immateriële activa - oprichting	D		1
+Vaste Activa	Immaterieel	Immateriële activa - R&D	D		2
+Vaste Activa	Immaterieel	Immateriële activa - IP	D		3
+Vaste Activa	Immaterieel	Goodwill	D		4
+Vaste Activa	Materieel	Grond	D		5
+Vaste Activa	Materieel	Bedrijfspand	D		6
+Vaste Activa	Materieel	Verbouwingen	D		7
+Vaste Activa	Materieel	Machines - aanschaf	D		8
+Vaste Activa	Materieel	Auto's & andere vervoermiddelen	D		9
+Vaste Activa	Materieel	Inventaris & Inrichting	D		10
+Vaste Activa	Materieel	Andere vaste activa	D		11
+Vaste Activa	Financieel	Deelnemingen - Groepmij	D		12
+Vaste Activa	Financieel	Deelnemingen -Overig verbonden	D		13
+Vaste Activa	Financieel	Deelnemingen- Overig	D		14
+Vaste Activa	Financieel	Beleggingen (lang)	D		15
+Vaste Activa	Financieel	Lening aan groepsmij.	D		16
+Vaste Activa	Financieel	Lening aan deelneming	D		17
+Vaste Activa	Financieel	Lening aan verbonden partij	D		18
+Vaste Activa	Financieel	Belastingtegoed (lang)	D		19
+Vaste Activa	Financieel	Overige vorderingen (lang)	D		20
+Vaste Activa	Financieel	Uitgeleende bedragen	D		21
+Vlottende Activa	Voorraad	Voorraad	D		22
+Vlottende Activa	Voorraad	Projecten in uitvoering	D		23
+Vlottende Activa	Vorderingen	Debiteuren (Klanten)	D		24
+Vlottende Activa	Vorderingen	R/C Groepsmij.	D/C		25
+Vlottende Activa	Vorderingen	R/C Verbonden partijen	D/C		26
+Vlottende Activa	Vorderingen	R/C Deelneming	D/C		27
+Vlottende Activa	Vorderingen	Opgevraagd kapitaal	D		28
+Vlottende Activa		Terug te ontvangen BTW	D		29
+Vlottende Activa		Terug te ontvangen Loonbelasting	D		30
+Vlottende Activa		Teveel betaalde belastingen (niet omzetbelasting)	D		31
+Vlottende Activa	Vorderingen	Rekening-courant aandeelhouders	D/C		32
+Vlottende Activa	Vorderingen	Pensioenvordering	D		33
+Vlottende Activa	Vorderingen	Vooruitbetaalde kosten	D		34
+Vlottende Activa	Effecten	Effecten	D		35
+Liquide Middelen	Bank	Bank	D		36
+Liquide Middelen	Kas	Kas	D		37
+Liquide Middelen	Tussenrekening	Interne overboekingen	D/C		38
+					
+Eigen Vermogen	Kapitaal	Aandelenkapitaal	C		39
+Eigen Vermogen	Reserves	Agio	C		40
+Eigen Vermogen	Reserves	Herwaarderingsreserve	C		41
+Eigen Vermogen	Reserves	Wettelijke reserves	C		42
+Eigen Vermogen	Reserves	Statutaire reserves	C		43
+Eigen Vermogen	Reserves	Overige reserves	C		44
+Eigen Vermogen	Resultaat	Onverdeelde winst	C	This shows plug of profit since start of year. At the end of each year, the accumulated profit goes to GL account 50600, and the account 506009 is cleared	45
+Eigen Vermogen	Kapitaal	Aandeel derden	C		46
+Eigen Vermogen	Kapitaal	Eigen Vermogen EZ & VOF	C	Show for Eenmanszaak and VOF	47
+Eigen Vermogen	Reserves	Fiscale reserves	C		48
+Voorzieningen	Voorziening	Pensioenvoorziening	C		49
+Voorzieningen	Voorziening	Belastingvoorziening	C		50
+Voorzieningen	Voorziening	Overige voorzieningen	C		51
+Voorzieningen	Voorziening	Negatieve goodwill	C		52
+Langlopende schulden	Schuld	Achtergestelde lening	C		53
+Langlopende schulden	Schuld	Converteerbare lening	C		54
+Langlopende schulden	Schuld	Obligaties	C		55
+Langlopende schulden	Schuld	Leasecontract (lang)	C		56
+Langlopende schulden	Schuld	Banklening (lang)	C		57
+Langlopende schulden	Schuld	Schuld aan groepsmij. (lang)	C		58
+Langlopende schulden	Schuld	Schuld aan verbonden partij (lang)	C		59
+Langlopende schulden	Schuld	Schuld aan deelneming (lang)	C		60
+Langlopende schulden	Schuld	Crediteuren (lang)	C		61
+Langlopende schulden	Schuld	Oudedagsverplichting	C		62
+Langlopende schulden	Schuld	Overlopende passiva (lang)	C		63
+Kortlopende schulden	Schuld	Kortlopende leningen	C		64
+Kortlopende schulden	Schuld	Crediteuren (Leveranciers)	C		65
+Kortlopende schulden	Belastingen	Overige belastingen	D/C		66
+Kortlopende schulden	Belastingen	Te betalen BTW	D/C		67
+Kortlopende schulden	Belastingen	Loonbelasting & Premies Sociale Verzekeringen	D/C		68
+Kortlopende schulden	Schuld	Schuld groepsmij. (kort)	C		69
+Kortlopende schulden	Schuld	Schuld verbonden partij (kort)	C		70
+Kortlopende schulden	Schuld	Schuld deelneming (kort)	C		71
+Kortlopende schulden	Bank	Roodstand Bank	C		72
+Kortlopende schulden	Schuld	Onderhanden projecten (passiva)	C		73
+Kortlopende schulden	Schuld	Nog te betalen kosten	C		74
+Kortlopende schulden	Schuld	Tussenrekening vraagposten	D/C		75

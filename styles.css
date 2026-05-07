@@ -83,12 +83,12 @@ tr.section-title-row--balance td.section-title-cell {
   border-top: 3px solid var(--kpi-rule);
 }
 
-.parent-row[data-parent="bs-activa"] td {
+.balance-sheet-parent[data-parent="bs-act-va"] td.account-col {
   padding-top: 0.65rem;
 }
 
-.parent-row[data-parent="bs-activa"] td.account-col {
-  padding-top: 0.65rem;
+.balance-sheet-parent[data-parent]:not([data-parent="bs-act-va"]) td.account-col {
+  padding-top: 0.45rem;
 }
 
 .btn {
